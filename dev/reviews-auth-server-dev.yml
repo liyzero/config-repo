@@ -36,8 +36,8 @@ spring:
       poolPreparedStatements: true
       maxOpenPreparedStatements: 20
     rabbitmq:
-      host: ${RABBIT_MQ_HOST:127.0.0.1}
-      port:  ${RABBIT_MQ_PORT:5672}
+      host: 47.106.11.174
+      port: ${RABBIT_MQ_PORT:5672}
       username: guest
       password: guest
     sleuth:

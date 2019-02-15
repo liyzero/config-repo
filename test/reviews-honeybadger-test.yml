@@ -1,0 +1,140 @@
+server:
+  port: 8782
+
+spring:
+  application:
+    name: reviews-honeybadger
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: non_null
+  datasource:
+    name: test
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/svl_reviews_honeybadger?useUnicode=true&characterEncoding=UTF8
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+  rabbitmq:
+    host: ${RABBIT_MQ_HOST:localhost}
+    port:  ${RABBIT_MQ_PORT:5672}
+    username: guest
+    password: guest
+  sleuth:
+    enabled: true
+    http:
+      legacy:
+        enabled: true
+  cloud:
+    consul:
+      enabled: true
+      host: 127.0.0.1
+      port: 8500
+      discovery:
+        healthCheckPath: /actuator/health
+        healthCheckInterval: 5s
+        instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+        register: true
+        enabled: true
+sample:
+  zipkin:
+    enabled: false
+
+mybatis:
+  basepackage: com.sunvalley.reviews.honeybadger.mapper
+  xmlLocation: classpath:mapper/**/*.xml
+  mapper-locations: "classpath*:mapper/*.xml"
+
+eureka:
+  instance:
+    statusPageUrlPath: /actuator/info
+    healthCheckUrlPath: /actuator/health
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka/
+
+feign:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+
+ribbon:
+  eureka:
+    enabled: true
+  ReadTimeout: 100000
+  ConnectTimeout: 100000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+  OkToRetryOnAllOperations: false
+
+hystrix:
+  threadpool:
+    default:
+      coreSize: 1000
+      maxQueueSize: 1000
+      queueSizeRejectionThreshold: 500
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 110000
+
+swagger:
+  enabled: true
+  base-package: com.sunvalley.reviews.honeybadger
+  title: reviews-admin
+  version: 2.0-SNAPSHOT
+  description: honeybadger
+  contact:
+    name: admin
+
+auth:
+  serviceId: reviews-auth
+  user:
+    token-header: Authorization
+  client:
+    id: reviews-honeybadger
+    secret: 123456
+    token-header: x-client-token
+
+redis:
+  pool:
+    maxActive: 300
+    maxIdle: 100
+    maxWait: 1000
+  host: ${REDIS_HOST:localhost}
+  port:  ${REDIS_PORT:6379}
+  password:
+  timeout: 2000
+  sysName: reviews-honeybadger
+  enable: true
+  database: 0
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  security:
+    enabled: false
+
+logging:
+  level:
+    com.sunvalley.reviews.honeybadger: DEBUG

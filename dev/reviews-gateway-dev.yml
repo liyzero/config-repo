@@ -1,0 +1,125 @@
+server:
+  port: 8762
+
+feign:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+  compression:
+    request:
+      enabled: true
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 2048
+    response:
+      enabled: true
+spring:
+  application:
+    name: reviews-gateway
+  redis:
+    database: 2
+    host: 127.0.0.1
+    jedis:
+      pool:
+        max-active: 20
+  rabbitmq:
+    host: ${RABBIT_MQ_HOST:localhost}
+    port: ${RABBIT_MQ_PORT:5672}
+    username: guest
+    password: guest
+  sleuth:
+    enabled: true
+    http:
+      legacy:
+        enabled: true
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: reviews-auth
+          uri: lb://reviews-auth
+          order: 8000
+          predicates:
+          - Path=/api/auth/**
+          filters:
+          - StripPrefix=2
+        - id: reviews-admin
+          uri: lb://reviews-admin
+          order: 8001
+          predicates:
+          - Path=/api/admin/**
+          filters:
+          - StripPrefix=2
+        - id: reviews-honeybadger
+          uri: lb://reviews-honeybadger
+          order: 8002
+          predicates:
+          - Path=/api/honeybadger/**
+          filters:
+          - StripPrefix=2
+  consul:
+    enabled: true
+    host: 127.0.0.1
+    port: 8500
+    discovery:
+      healthCheckPath: /actuator/health
+      healthCheckInterval: 5s
+      instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+      register: true
+      enabled: true
+
+logging:
+  level:
+    com.gehuida.reviews.gate: info
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  security:
+    enabled: false
+
+gate:
+  ignore:
+    startWith: /auth/jwt
+
+auth:
+  serviceId: reviews-auth
+  user:
+    token-header: Authorization
+  client:
+    token-header: x-client-token
+    id: reviews-gateway
+    secret: 123456
+
+feign:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+
+ribbon:
+  eureka:
+    enabled: true
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+  OkToRetryOnAllOperations: false
+
+hystrix:
+  threadpool:
+    default:
+      coreSize: 1000
+      maxQueueSize: 1000
+      queueSizeRejectionThreshold: 500
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000

@@ -10,13 +10,13 @@ spring:
         default-property-inclusion: non_null
     redis:
         database: 2
-        host: ${REDIS_HOST:localhost}
+        host: ${REDIS_HOST:127.0.0.1}
         port: ${REDIS_PORT:6379}
         pool:
         max-active: 20
     datasource:
       name: test
-      url: jdbc:mysql://rm-wz999n5pno5303q674o.mysql.rds.aliyuncs.com:${MYSQL_PORT:3306}/svl_reviews_admin?useUnicode=true&characterEncoding=UTF8
+      url: jdbc:mysql://rm-wz999n5pno5303q674o.mysql.rds.aliyuncs.com:${MYSQL_PORT:3306}/ghd_reviews_admin?useUnicode=true&characterEncoding=UTF8
       username: ghd_crm_demo
       password: zo=TH09json*a
       # 使用druid数据源
@@ -36,7 +36,7 @@ spring:
       poolPreparedStatements: true
       maxOpenPreparedStatements: 20
     rabbitmq:
-      host: ${RABBIT_MQ_HOST:localhost}
+      host: ${RABBIT_MQ_HOST:127.0.0.1}
       port:  ${RABBIT_MQ_PORT:5672}
       username: guest
       password: guest
@@ -103,7 +103,7 @@ eureka:
       serviceUrl:
 #       defaultZone: http://localhost:8761/eureka/
         # docker 部署开启
-        defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka/
+        defaultZone: http://${EUREKA_HOST:127.0.0.1}:${EUREKA_PORT:8761}/eureka/
 
 
 
@@ -131,3 +131,6 @@ management:
         include: '*'
   security:
     enabled: false
+  endpoint:
+    health:
+      show-details: always

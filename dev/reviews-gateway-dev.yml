@@ -18,13 +18,14 @@ spring:
     name: reviews-gateway
   redis:
     database: 2
-    host: 127.0.0.1
+    host: 120.77.217.112
     jedis:
       pool:
         max-active: 20
+    port: 6379
   rabbitmq:
-    host: ${RABBIT_MQ_HOST:localhost}
-    port: ${RABBIT_MQ_PORT:5672}
+    host: 120.77.217.112
+    port: 5672
     username: guest
     password: guest
   sleuth:
@@ -62,7 +63,7 @@ spring:
           - StripPrefix=2
   consul:
     enabled: true
-    host: 127.0.0.1
+    host: 120.77.217.112
     port: 8500
     discovery:
       healthCheckPath: /actuator/health
@@ -123,3 +124,18 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 10000
+
+logging:
+  level:
+    com.gehuida.reviews.reviews.gate: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  security:
+    enabled: false
+  endpoint:
+    health:
+      show-details: always

@@ -10,7 +10,7 @@ spring:
     default-property-inclusion: non_null
   datasource:
     name: test
-    url: jdbc:mysql://rm-wz999n5pno5303q674o.mysql.rds.aliyuncs.com:${MYSQL_PORT:3306}/svl_reviews_honeybadger?useUnicode=true&characterEncoding=UTF8
+    url: jdbc:mysql://rm-wz999n5pno5303q674o.mysql.rds.aliyuncs.com:${MYSQL_PORT:3306}/ghd_reviews_admin?useUnicode=true&characterEncoding=UTF8
     username: ghd_crm_demo
     password: zo=TH09json*a
     type: com.alibaba.druid.pool.DruidDataSource
@@ -30,12 +30,11 @@ spring:
     maxOpenPreparedStatements: 20
   stream:
     default-binder: rabbit
-    
   rabbitmq:
-    host: ${RABBIT_MQ_HOST:localhost}
-    port:  ${RABBIT_MQ_PORT:5672}
-    username: guest
-    password: guest
+    host: 120.77.217.112
+    port: ${RABBIT_MQ_PORT:5672}
+    username: admin
+    password: 123admin456
   sleuth:
     enabled: true
     http:
@@ -44,11 +43,11 @@ spring:
   cloud:
     consul:
       enabled: true
-      host: 127.0.0.1
+      host: 120.77.217.112
       port: 8500
       discovery:
         healthCheckPath: /actuator/health
-        healthCheckInterval: 5s
+        healthCheckInterval: 10s
         instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
         register: true
         enabled: true
@@ -57,7 +56,7 @@ sample:
     enabled: false
 
 mybatis:
-  basepackage: com.sunvalley.reviews.honeybadger.mapper
+  basepackage: com.gehuida.reviews.honeybadger.mapper
   xmlLocation: classpath:mapper/**/*.xml
   mapper-locations: "classpath*:mapper/*.xml"
 
@@ -101,7 +100,7 @@ hystrix:
 
 swagger:
   enabled: true
-  base-package: com.sunvalley.reviews.honeybadger
+  base-package: com.gehuida.reviews.honeybadger
   title: reviews-admin
   version: 2.0-SNAPSHOT
   description: honeybadger
@@ -122,8 +121,8 @@ redis:
     maxActive: 300
     maxIdle: 100
     maxWait: 1000
-  host: ${REDIS_HOST:localhost}
-  port:  ${REDIS_PORT:6379}
+  host: 120.77.217.112
+  port: ${REDIS_PORT:6379}
   password:
   timeout: 2000
   sysName: reviews-honeybadger
@@ -137,7 +136,10 @@ management:
         include: '*'
   security:
     enabled: false
+  endpoint:
+    health:
+      show-details: always
 
 logging:
   level:
-    com.sunvalley.reviews.honeybadger: DEBUG
+    com.gehuida.reviews.honeybadger: DEBUG

@@ -36,8 +36,8 @@ spring:
     rabbitmq:
         host: 120.77.217.112
         port: ${RABBIT_MQ_PORT:5672}
-        username: guest
-        password: guest
+        username: admin
+        password: 123admin456
     sleuth:
       enabled: true
       http:

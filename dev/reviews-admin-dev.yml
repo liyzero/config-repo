@@ -34,8 +34,8 @@ spring:
         poolPreparedStatements: true
         maxOpenPreparedStatements: 20
     rabbitmq:
-        host: ${RABBIT_MQ_HOST:localhost}
-        port:  ${RABBIT_MQ_PORT:5672}
+        host: 120.77.217.112
+        port: ${RABBIT_MQ_PORT:5672}
         username: guest
         password: guest
     sleuth:
@@ -46,7 +46,7 @@ spring:
     cloud:
        consul:
          enabled: true
-         host: 127.0.0.1
+         host: 120.77.217.112
          port: 8500
          discovery:
            healthCheckPath: /actuator/health
@@ -63,9 +63,6 @@ mybatis:
     basepackage: com.gehuida.reviews.admin.mapper
     xmlLocation: classpath:mapper/**/*.xml
     mapper-locations: "classpath*:mapper/*.xml"
-
-
-
 
 eureka:
     instance:
@@ -133,8 +130,8 @@ redis:
          maxActive: 300
          maxIdle: 100
          maxWait: 1000
-    host: ${REDIS_HOST:localhost}
-    port:  ${REDIS_PORT:6379}
+    host: 120.77.217.112
+    port: ${REDIS_PORT:6379}
     password:
     timeout: 2000
     # 服务或应用名
@@ -149,3 +146,6 @@ management:
         include: '*'
   security:
     enabled: false
+  endpoint:
+    health:
+      show-details: always

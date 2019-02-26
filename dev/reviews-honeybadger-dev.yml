@@ -31,7 +31,7 @@ spring:
   stream:
     default-binder: rabbit
   rabbitmq:
-    host: 120.77.217.112
+    host: 39.108.98.253
     port: ${RABBIT_MQ_PORT:5672}
     username: admin
     password: 123admin456
@@ -43,7 +43,7 @@ spring:
   cloud:
     consul:
       enabled: true
-      host: 120.77.217.112
+      host: 39.108.98.253
       port: 8500
       discovery:
         healthCheckPath: /actuator/health
@@ -121,7 +121,7 @@ redis:
     maxActive: 300
     maxIdle: 100
     maxWait: 1000
-  host: 120.77.217.112
+  host: 39.108.98.253
   port: ${REDIS_PORT:6379}
   password:
   timeout: 2000

@@ -18,13 +18,13 @@ spring:
     name: reviews-gateway
   redis:
     database: 2
-    host: 120.77.217.112
+    host: 39.108.98.253
     jedis:
       pool:
         max-active: 20
     port: 6379
   rabbitmq:
-    host: 120.77.217.112
+    host: 39.108.98.253
     port: 5672
     username: admin
     password: 123admin456
@@ -63,7 +63,7 @@ spring:
           - StripPrefix=2
   consul:
     enabled: true
-    host: 120.77.217.112
+    host: 39.108.98.253
     port: 8500
     discovery:
       healthCheckPath: /actuator/health
